@@ -18,15 +18,41 @@ public:
 private:
   enum { ParticleMax = 10, };
 
+  // ”šˆÈŠO‚Ì‰æ‘œ ID ‚Ìˆê——
+  enum TextureID {
+    Back = 10,
+    Logo,
+    Icon1,
+    Icon2,
+    Icon3,
+    Cursor,
+    Control,
+
+    Red,
+    Blue,
+    Green,
+    Yellow,
+  };
   std::vector<u_int> textureID;
+  std::vector<u_int> icons;
+
+  enum MediaID {
+    BGM,
+    Start,
+    Select,
+  };
   std::vector<u_int> mediaID;
 
   u_int select;
-  std::vector<u_int> icons;
-
   float angle;
+
   std::list<object::Particle> particles;
   int generateTime;
+
+  void ParticleUpdate();
+
+  void TextureSetup();
+  void MediaSetup();
 };
 
 }  // end scene
