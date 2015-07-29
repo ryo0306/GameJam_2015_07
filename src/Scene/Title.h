@@ -1,4 +1,4 @@
-
+﻿
 #pragma once
 #include "SceneBase.hpp"
 #include "../Objects/Particle.h"
@@ -18,7 +18,7 @@ public:
 private:
   enum { ParticleMax = 10, };
 
-  // �����ȊO�̉摜 ID �̈ꗗ
+  // 数字以外の画像 ID の一覧
   enum TextureID {
     Back = 10,
     Logo,

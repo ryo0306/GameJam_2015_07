@@ -1,4 +1,4 @@
-
+ï»¿
 #include "Title.h"
 
 using namespace frameworks::scene;
@@ -15,7 +15,7 @@ generateTime(0) {
   TextureSetup();
   MediaSetup();
 
-  // BGM ‚ğæ“¾Aƒ‹[ƒvÄ¶ŠJn
+  // BGM ã‚’å–å¾—ã€ãƒ«ãƒ¼ãƒ—å†ç”Ÿé–‹å§‹
   auto bgm = Asset().Find().Media(mediaID[BGM]);
   bgm->looping(true);
   bgm->play();
@@ -40,7 +40,7 @@ void Title::Update() {
 
 
 void Title::Draw() {
-  // ”wŒi
+  // èƒŒæ™¯
   {
     const auto back = Asset().Find().Texture(textureID[Back]);
     const Vec2f backSize(1600, 900);
@@ -50,10 +50,10 @@ void Title::Draw() {
                    *back, Color::white);
   }
 
-  // ƒp[ƒeƒBƒNƒ‹
+  // ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«
   for (auto& particle : particles) { particle.Draw(); }
 
-  // ƒƒS
+  // ãƒ­ã‚´
   {
     const auto logo = Asset().Find().Texture(textureID[Logo]);
     const Vec2f logoSize(2048, 512);
@@ -64,39 +64,39 @@ void Title::Draw() {
                    Vec2f(logoSize.x() / 2, 0));
   }
 
-  // ƒAƒCƒRƒ“‚ÆƒJ[ƒ\ƒ‹
+  // ã‚¢ã‚¤ã‚³ãƒ³ã¨ã‚«ãƒ¼ã‚½ãƒ«
   {
-    // ƒAƒCƒRƒ“
+    // ã‚¢ã‚¤ã‚³ãƒ³
     const Vec2f scale = Vec2f::Ones() * 1.2f;
     const Vec2f iconSize = Vec2f::Ones() * 280.0f;
 
-    // ƒJ[ƒ\ƒ‹
+    // ã‚«ãƒ¼ã‚½ãƒ«
     const auto cursor = Asset().Find().Texture(textureID[Cursor]);
     const Vec2f cursorSize(100, 160);
 
     int count = 0;
     for (auto& icon : icons) {
-      // ‚»‚ê‚¼‚ê‚ÌƒAƒCƒRƒ“
+      // ãã‚Œãã‚Œã®ã‚¢ã‚¤ã‚³ãƒ³
       const auto texture = Asset().Find().Texture(icon);
 
-      // ‘I‘ğó‘Ô
+      // é¸æŠçŠ¶æ…‹
       const bool selected = (count == select);
 
-      // À•WŒvZ
+      // åº§æ¨™è¨ˆç®—
       const float posX = (iconSize.x() + 180) * (count - 1);
       const float posY = -HEIGHT / 2 + 140;
 
-      // ‰ñ“]ƒGƒtƒFƒNƒg
+      // å›è»¢ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
       const float rotate = selected ? std::sin(angle * 2) / 4 : 0.0f;
 
-      // ƒAƒCƒRƒ“•`‰æ
+      // ã‚¢ã‚¤ã‚³ãƒ³æç”»
       drawTextureBox(posX, posY, iconSize.x(), iconSize.y(),
                      0, 0, 480, 480,
                      *texture, Color::white, rotate,
                      selected ? scale : Vec2f::Ones(),
                      iconSize * 0.5f);
 
-      // ƒJ[ƒ\ƒ‹
+      // ã‚«ãƒ¼ã‚½ãƒ«
       if (selected) {
         const auto CursorY = posY + 200;
         drawTextureBox(posX, CursorY, cursorSize.x(), cursorSize.y(),
@@ -109,7 +109,7 @@ void Title::Draw() {
     }
   }
 
-  // ƒXƒ^[ƒg
+  // ã‚¹ã‚¿ãƒ¼ãƒˆ
   {
     const auto start = Asset().Find().Texture(textureID[16]);
     const Vec2f startSize(400, 70);
@@ -160,13 +160,13 @@ void Title::TextureSetup() {
     "res/png/title_8.png",
     "res/png/title_9.png",
 
-    "res/png/title_back.png",     //[10]”wŒi
+    "res/png/title_back.png",     //[10]èƒŒæ™¯
     "res/png/title_logo.png",     //[11]
-    "res/png/stage1.png",         //[12]ƒAƒCƒRƒ“
+    "res/png/stage1.png",         //[12]ã‚¢ã‚¤ã‚³ãƒ³
     "res/png/stage2.png",         //[13]
     "res/png/stage3.png",         //[14]
-    "res/png/title_cursor.png",   //[15]—t‚Á‚ÏƒJ[ƒ\ƒ‹
-    "res/png/title_start.png",    //[16]ƒXƒ^[ƒg‘€ì
+    "res/png/title_cursor.png",   //[15]è‘‰ã£ã±ã‚«ãƒ¼ã‚½ãƒ«
+    "res/png/title_start.png",    //[16]ã‚¹ã‚¿ãƒ¼ãƒˆæ“ä½œ
 
     "res/png/ochirukun_red.png",      //[17]
     "res/png/ochirukun_blue.png",     //[18]
@@ -178,7 +178,7 @@ void Title::TextureSetup() {
     textureID.push_back(Asset().Append().Texture(data));
   }
 
-  // ƒXƒe[ƒW‘I‘ğ‚ÌƒAƒCƒRƒ“ ID ‚ğæ‚èo‚·
+  // ã‚¹ãƒ†ãƒ¼ã‚¸é¸æŠã®ã‚¢ã‚¤ã‚³ãƒ³ ID ã‚’å–ã‚Šå‡ºã™
   icons.push_back(textureID[Icon1]);
   icons.push_back(textureID[Icon2]);
   icons.push_back(textureID[Icon3]);
@@ -196,7 +196,7 @@ void Title::MediaSetup() {
     mediaID.push_back(Asset().Append().Media(data));
   }
 
-  // ‰¹—Ê‚ğˆêŠ‡‚Å’²®
+  // éŸ³é‡ã‚’ä¸€æ‹¬ã§èª¿æ•´
   const float gain = 0.5f;
   for (const auto& id : mediaID) {
     Asset().Find().Media(id)->gain(gain);
