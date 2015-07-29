@@ -1,10 +1,10 @@
-
+ï»¿
 #include "Result.h"
 
 using namespace frameworks::scene;
 
 
-// ‰Šú‰»‚ğ‚·‚é
+// åˆæœŸåŒ–ã‚’ã™ã‚‹
 Result::Result() :
 SceneBase(SceneName::Result, SceneName::Title) {
   Asset().Delete().All();
@@ -50,7 +50,7 @@ SceneBase(SceneName::Result, SceneName::Title) {
 }
 
 
-// XV
+// æ›´æ–°
 void Result::Update() {
   if (Env().isPushKey(SPACE)) {
     isFinish = true;
@@ -59,15 +59,15 @@ void Result::Update() {
 }
 
 
-// •`‰æ
+// æç”»
 void Result::Draw() {
 
-  // ƒNƒŠƒAƒMƒ~ƒbƒNg—p‰ñ”
-  u_int count = GameData::Get().GimmickCounter();
+  // ã‚¯ãƒªã‚¢æ™‚ã‚®ãƒŸãƒƒã‚¯ä½¿ç”¨å›æ•°
+  u_int count = GameData::Get().GimmickCount();
 
   bool get_medal = false;
 
-  // ƒXƒe[ƒW‚²‚Æ‚Éƒƒ_ƒ‹Šl“¾‚©‚¢‚Á”‚ğ’²‚×‚é
+  // ã‚¹ãƒ†ãƒ¼ã‚¸ã”ã¨ã«ãƒ¡ãƒ€ãƒ«ç²å¾—ã‹ã„ã£æ•°ã‚’èª¿ã¹ã‚‹
   switch (GameData::Get().GetStageID()) {
     default:;
     case StageID::Stage1:
@@ -83,7 +83,7 @@ void Result::Draw() {
       break;
   }
 
-  // ƒƒ_ƒ‹—L‚©–³‚ğ”»’è
+  // ãƒ¡ãƒ€ãƒ«æœ‰ã‹ç„¡ã‚’åˆ¤å®š
   if (get_medal) {
     const auto result_medal = Asset().Find().Texture(textureID[11]);
     drawTextureBox(-800, -450, 1600, 900, 0, 0, 1600, 900, *result_medal);
@@ -95,7 +95,7 @@ void Result::Draw() {
     drawTextureBox(-800, -450, 1600, 900, 0, 0, 1600, 900, *result_no_medal);
   }
 
-  // ”š
+  // æ•°å­—
   const auto num_1 = Asset().Find().Texture(textureID[count % 10]);
   drawTextureBox(-580, -500, 480, 480, 0, 0, 512, 512, *num_1);
 

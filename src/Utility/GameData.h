@@ -1,4 +1,4 @@
-
+ï»¿
 #pragma once
 #include "../Common.hpp"
 
@@ -13,8 +13,6 @@ enum StageID {
   None,
 };
 
-typedef std::vector<u_int>  TextureList;
-
 class GameData {
 public:
   static GameData& Get() {
@@ -22,39 +20,39 @@ public:
     return gameData;
   }
 
-  // ƒMƒ~ƒbƒN‰æ‘œ‚Ì ID ƒŠƒXƒg‚ğ•Ô‚·
-  TextureList& GimmickID() { return gimmickID; }
+  // é¸æŠã—ãŸã‚¹ãƒ†ãƒ¼ã‚¸ã® ID ã‚’è¿”ã™
+  const StageID GetStageID() const { return stage; }
 
-  // ƒMƒ~ƒbƒN‚ğ‹N“®‚µ‚½‰ñ”‚ğ•Ô‚·
-  // TIPS: ŠeƒXƒe[ƒW‚²‚Æ‚ÌƒJƒEƒ“ƒ^‚ğ•Ô‚·
-  u_int& GimmickCounter() { return gimmickCounter[stage]; }
+  // ã‚¹ãƒ†ãƒ¼ã‚¸ã® ID ã‚’ä¿æŒ
+  void SetStageID(const StageID id) { stage = id; }
 
-  // ƒMƒ~ƒbƒN‚ÌƒJƒEƒ“ƒ^‚ğƒŠƒZƒbƒg‚·‚é
-  void CountReset() { gimmickCounter[stage] = 0; }
+  // ã‚®ãƒŸãƒƒã‚¯ç”»åƒã® ID ãƒªã‚¹ãƒˆã‚’è¿”ã™
+  std::vector<u_int>& GimmickID() { return gimmickID; }
 
-  // ‘O‰ñ‚Ì‹L˜^‚ğXV‚Å‚«‚é‚©Šm”F
+  // ã‚®ãƒŸãƒƒã‚¯ã‚’èµ·å‹•ã—ãŸå›æ•°ã‚’è¿”ã™
+  // TIPS: å„ã‚¹ãƒ†ãƒ¼ã‚¸ã”ã¨ã®ã‚«ã‚¦ãƒ³ã‚¿ã‚’è¿”ã™
+  u_int& GimmickCount() { return gimmickCounter[stage]; }
+
+  // ã‚®ãƒŸãƒƒã‚¯ã®ã‚«ã‚¦ãƒ³ã‚¿ã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹
+  void CountReset() { for (auto& count : gimmickCounter) count = 0; }
+
+  // å‰å›ã®è¨˜éŒ²ã‚’æ›´æ–°ã§ãã‚‹ã‹ç¢ºèª
   void RankingUpdate() {
     if (rankingCounter[stage] < gimmickCounter[stage])
       rankingCounter[stage] = gimmickCounter[stage];
   }
 
-  // ‘S‚Ä‚ÌƒXƒe[ƒW‚Ì‹L˜^‚ğ•Ô‚·
+  // å…¨ã¦ã®ã‚¹ãƒ†ãƒ¼ã‚¸ã®è¨˜éŒ²ã‚’è¿”ã™
   std::vector<u_int>& RankingCounter() { return rankingCounter; }
-
-  // ‘I‘ğ‚µ‚½ƒXƒe[ƒW‚Ì ID ‚ğ•Ô‚·
-  const StageID GetStageID() const { return stage; }
-
-  // ƒXƒe[ƒW‚Ì ID ‚ğ•Û
-  void SetStageID(const StageID id) { stage = id; }
 
 private:
   StageID stage;
-  TextureList gimmickID;
+  std::vector<u_int> gimmickID;
 
-  std::vector<u_int> gimmickCounter;
-  std::vector<u_int> rankingCounter;
+  std::vector<u_int> gimmickCounter;   // ãƒªã‚¶ãƒ«ãƒˆã§è¡¨ç¤ºã™ã‚‹ã‚«ã‚¦ãƒ³ã‚¿
+  std::vector<u_int> rankingCounter;   // ã‚¿ã‚¤ãƒˆãƒ«ã§è¡¨ç¤ºã™ã‚‹ã‚«ã‚¦ãƒ³ã‚¿
 
-  GameData() : stage(StageID::None) {
+  GameData() : stage(StageID::Stage1) {
     gimmickCounter.resize(All_Stage);
     for (auto& count : gimmickCounter) { count = 0; }
 

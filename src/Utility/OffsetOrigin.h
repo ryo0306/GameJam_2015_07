@@ -1,4 +1,4 @@
-
+ï»¿
 #pragma once
 #include "../Common.hpp"
 
@@ -6,7 +6,7 @@
 namespace frameworks {
 namespace utility {
 
-// Œ´“_‚Ìˆê——
+// åŸç‚¹ã®ä¸€è¦§
 enum class Origin {
   LeftTop,
   Left,
@@ -21,13 +21,8 @@ enum class Origin {
   All_Info,
 };
 
-// ‰æ‘œ‚ÌŒ´“_‚ğw’èAˆÚ“®—Ê‚ğ•Ô‚·
+// ç”»åƒã®åŸç‚¹ã‚’æŒ‡å®šã€ç§»å‹•é‡ã‚’è¿”ã™
 const Vec2f& OffsetTextureOrigin(const Origin info);
-
-// ‰æ‘œ‚Ì•`‰æF‹@”\’Ç‰Á”Å
-void DrawTexture(const Transform& transform,
-                 const Sprite& sprite,
-                 const Vec2f& offset = Vec2f::Zero());
 
 }  // end utility
 }  // end frameworks

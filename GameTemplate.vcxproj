@@ -53,7 +53,7 @@
     <ClInclude Include="src\Utility\Fps.h" />
     <ClInclude Include="src\Utility\GameData.h" />
     <ClInclude Include="src\Utility\Sequencer.hpp" />
-    <ClInclude Include="src\Utility\DrawTexture.h" />
+    <ClInclude Include="src\Utility\OffsetOrigin.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\lib\appEnv.cpp" />

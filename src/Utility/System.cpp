@@ -1,4 +1,4 @@
-
+ï»¿
 #include "../Common.hpp"
 #include "Fps.h"
 #include <chrono>
@@ -58,9 +58,9 @@ public:
     prev = now;
   }
 
-  // ¸“x  1 / ƒ~ƒŠ•b (milli seconds)
+  // ç²¾åº¦  1 / ãƒŸãƒªç§’ (milli seconds)
   const inline double DeltaTime() const {
-    // TIPS: ®”Œ^‚Å•Ô‚³‚ê‚é‚Ì‚ÅA’PˆÊ‚ğ•ÏŠ·‚µ‚Äo—Í
+    // TIPS: æ•´æ•°å‹ã§è¿”ã•ã‚Œã‚‹ã®ã§ã€å˜ä½ã‚’å¤‰æ›ã—ã¦å‡ºåŠ›
     return static_cast<double>(elapsedTime.count()) * 0.001;
   }
 

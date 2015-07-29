@@ -1,4 +1,4 @@
-
+ï»¿
 #include "MainGame.h"
 
 using namespace frameworks::object;
@@ -6,7 +6,7 @@ using namespace frameworks::scene;
 using namespace frameworks::utility;
 
 
-// ‰Šú‰»‚ğ‚·‚é
+// åˆæœŸåŒ–ã‚’ã™ã‚‹
 MainGame::MainGame() :
 SceneBase(SceneName::Main, SceneName::Result) {
   Asset().Delete().All();
@@ -16,43 +16,43 @@ SceneBase(SceneName::Main, SceneName::Result) {
 
   const auto& stageID = GameData::Get().GetStageID();
 
-  // ƒMƒ~ƒbƒN‰æ‘œ‚Ìƒe[ƒuƒ‹
+  // ã‚®ãƒŸãƒƒã‚¯ç”»åƒã®ãƒ†ãƒ¼ãƒ–ãƒ«
   const std::string TextureTable[] = {
-    "res/png/button_A.png",     // [0]ÔƒXƒCƒbƒ`
-    "res/png/button_D.png",     // [1]ÂƒXƒCƒbƒ`
-    "res/png/button_B.png",     // [2]‰©FƒXƒCƒbƒ`
-    "res/png/button_C.png",     // [3]—ÎƒXƒCƒbƒ`
-    "res/png/button_A_B.png",   // [4]Ô‰Ÿ‚µ‚½
-    "res/png/button_D_B.png",   // [5]Â‰Ÿ‚µ‚½
-    "res/png/button_B_B.png",   // [6]‰©F‰Ÿ‚µ‚½
-    "res/png/button_C_B.png",   // [7]—Î‰Ÿ‚µ‚½
+    "res/png/button_A.png",     // [0]èµ¤ã‚¹ã‚¤ãƒƒãƒ
+    "res/png/button_D.png",     // [1]é’ã‚¹ã‚¤ãƒƒãƒ
+    "res/png/button_B.png",     // [2]é»„è‰²ã‚¹ã‚¤ãƒƒãƒ
+    "res/png/button_C.png",     // [3]ç·‘ã‚¹ã‚¤ãƒƒãƒ
+    "res/png/button_A_B.png",   // [4]èµ¤æŠ¼ã—ãŸ
+    "res/png/button_D_B.png",   // [5]é’æŠ¼ã—ãŸ
+    "res/png/button_B_B.png",   // [6]é»„è‰²æŠ¼ã—ãŸ
+    "res/png/button_C_B.png",   // [7]ç·‘æŠ¼ã—ãŸ
   };
 
-  // ƒe[ƒuƒ‹‚©‚çƒf[ƒ^‚ğ“o˜^AŠÖ˜A•t‚¯‚³‚ê‚½ ID ‚ğ•Û
+  // ãƒ†ãƒ¼ãƒ–ãƒ«ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’ç™»éŒ²ã€é–¢é€£ä»˜ã‘ã•ã‚ŒãŸ ID ã‚’ä¿æŒ
   auto& gimmickID = GameData::Get().GimmickID();
   gimmickID.clear();
   for (auto& data : TextureTable) {
     gimmickID.push_back(Asset().Append().Texture(data));
   }
 
-  // ƒMƒ~ƒbƒNƒTƒCƒY
+  // ã‚®ãƒŸãƒƒã‚¯ã‚µã‚¤ã‚º
   std::shared_ptr<const float> gimmickSize;
 
-  // ƒMƒ~ƒbƒNİ’u
+  // ã‚®ãƒŸãƒƒã‚¯è¨­ç½®
   switch (stageID) {
-  
+
     case StageID::Stage1:
       gimmickSize = std::make_shared<const float>(80.0f);
 
 
       gimmicks.push_back(StageGimmick(GravityDirection::Top,
-                        Vec2f(-5, 2.5f), Vec2f::Ones() * 0.8f));
+        Vec2f(-5, 2.5f), Vec2f::Ones() * 0.8f));
       gimmicks.push_back(StageGimmick(GravityDirection::Bottom,
         Vec2f(-5, -0.5f), Vec2f::Ones() * 0.8f));
       gimmicks.push_back(StageGimmick(GravityDirection::Right,
-                   Vec2f(0, -2.5f), Vec2f::Ones() * 0.8f));
+        Vec2f(0, -2.5f), Vec2f::Ones() * 0.8f));
       gimmicks.push_back(StageGimmick(GravityDirection::Top,
-                    Vec2f(3, -3.5f), Vec2f::Ones() * 0.8f));
+        Vec2f(3, -3.5f), Vec2f::Ones() * 0.8f));
       gimmicks.push_back(StageGimmick(GravityDirection::Left,
         Vec2f(0, 1.5f), Vec2f::Ones() * 0.8f));
       break;
@@ -75,7 +75,7 @@ SceneBase(SceneName::Main, SceneName::Result) {
       gimmicks.push_back(StageGimmick(GravityDirection::Left,
         Vec2f(6.5, -0.5f), Vec2f::Ones() * 1));
       break;
-    
+
     case StageID::Stage3:
       gimmickSize = std::make_shared<const float>(50.0f);
 
@@ -106,13 +106,13 @@ SceneBase(SceneName::Main, SceneName::Result) {
       break;
   }
 
-  // ƒMƒ~ƒbƒNƒTƒCƒY‚ğ”½‰f
+  // ã‚®ãƒŸãƒƒã‚¯ã‚µã‚¤ã‚ºã‚’åæ˜ 
   for (auto& gimmick : gimmicks) {
     gimmick.GetTransform().pos *= (*gimmickSize);
     gimmick.GetTransform().scale *= (*gimmickSize);
   }
 
-  // BGM, SE ‚Ìƒe[ƒuƒ‹
+  // BGM, SE ã®ãƒ†ãƒ¼ãƒ–ãƒ«
   const std::string MediaTable[] = {
     "res/wav/stage1.wav",
     "res/wav/stage2.wav",
@@ -123,18 +123,18 @@ SceneBase(SceneName::Main, SceneName::Result) {
     "res/wav/crash.wav",
   };
 
-  // ƒe[ƒuƒ‹‚©‚çƒf[ƒ^‚ğ“o˜^AŠÖ˜A•t‚¯‚³‚ê‚½ ID ‚ğ•Û
+  // ãƒ†ãƒ¼ãƒ–ãƒ«ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’ç™»éŒ²ã€é–¢é€£ä»˜ã‘ã•ã‚ŒãŸ ID ã‚’ä¿æŒ
   for (auto& data : MediaTable) {
     mediaID.push_back(Asset().Append().Media(data));
   }
 
-  // ‰¹—Ê‚ğˆêŠ‡‚Å’²®
+  // éŸ³é‡ã‚’ä¸€æ‹¬ã§èª¿æ•´
   const float gain = 0.5f;
   for (auto& id : mediaID) {
     Asset().Find().Media(id)->gain(gain);
   }
 
-  // BGM ‚Ì‚İAƒ‹[ƒvÄ¶‚ğ‹–‰Â
+  // BGM ã®ã¿ã€ãƒ«ãƒ¼ãƒ—å†ç”Ÿã‚’è¨±å¯
   auto bgm1 = Asset().Find().Media(mediaID[0]);
   bgm1->looping(true);
   auto bgm2 = Asset().Find().Media(mediaID[1]);
@@ -142,7 +142,7 @@ SceneBase(SceneName::Main, SceneName::Result) {
   auto bgm3 = Asset().Find().Media(mediaID[2]);
   bgm3->looping(true);
 
-  // ƒvƒŒƒCƒ„[‚ÆƒS[ƒ‹‚ÌÀ•W‚ğİ’è
+  // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨ã‚´ãƒ¼ãƒ«ã®åº§æ¨™ã‚’è¨­å®š
   float playerScale;
   float goalScale;
   switch (stageID) {
@@ -156,17 +156,17 @@ SceneBase(SceneName::Main, SceneName::Result) {
       stage.GoalSetup({ Vec2f(-2.0, -1) * goalScale, Vec2f::Ones() * goalScale, 0 },
                       GravityDirection::Bottom);
       break;
-   
+
     case StageID::Stage2:
       playerScale = 50.0f;
       goalScale = 80.0f;
       bgm2->play();
 
-      player.Start(Vec2f(-5.5,-3.5) * playerScale, playerScale);
+      player.Start(Vec2f(-5.5, -3.5) * playerScale, playerScale);
       stage.GoalSetup({ Vec2f(2.2, -2.5) * goalScale, Vec2f::Ones() * goalScale * 1.5, 0 },
                       GravityDirection::Right);
       break;
-    
+
     case StageID::Stage3:
       playerScale = 50.0f;
       goalScale = 80.0f;
@@ -182,7 +182,7 @@ SceneBase(SceneName::Main, SceneName::Result) {
 }
 
 
-// XV
+// æ›´æ–°
 void MainGame::Update() {
   player.Update();
 
@@ -200,7 +200,7 @@ void MainGame::Update() {
     if (player.IsKeyActive()) {
       player.SetGravityDirection(gimmick.GetDirection());
       player.GravityReset();
-      ++GameData::Get().GimmickCounter();
+      ++GameData::Get().GimmickCount();
       Asset().Find().Media(mediaID[5])->play();
     }
   }
@@ -224,7 +224,7 @@ void MainGame::Update() {
 }
 
 
-// •`‰æ
+// æç”»
 void MainGame::Draw() {
   stage.BackDraw();
   stage.Draw();

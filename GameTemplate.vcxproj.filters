@@ -144,9 +144,6 @@
     <ClInclude Include="src\Utility\Fps.h">
       <Filter>Source Files\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="src\Utility\DrawTexture.h">
-      <Filter>Source Files\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="src\Scene\Result.h">
       <Filter>Source Files\Scene</Filter>
     </ClInclude>
@@ -161,6 +158,9 @@
     </ClInclude>
     <ClInclude Include="src\Objects\Particle.h">
       <Filter>Source Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utility\OffsetOrigin.h">
+      <Filter>Source Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

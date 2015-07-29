@@ -1,4 +1,4 @@
-
+ï»¿
 #pragma once
 #include "lib/defines.hpp"
 #include "lib/appEnv.hpp"
@@ -12,7 +12,7 @@ enum WindowSize {
   HEIGHT = 900,
 };
 
-// ƒL[ƒ{[ƒh“ü—Í‚Ìˆê——
+// ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰å…¥åŠ›ã®ä¸€è¦§
 enum KeyBind {
   ESCAPE = GLFW_KEY_ESCAPE,
   ENTER  = GLFW_KEY_ENTER,
@@ -23,7 +23,7 @@ enum KeyBind {
   SPACE  = GLFW_KEY_SPACE,
 };
 
-// d—Í‚Ì•ûŒü
+// é‡åŠ›ã®æ–¹å‘
 enum GravityDirection {
   Bottom,
   Right,
@@ -31,34 +31,34 @@ enum GravityDirection {
   Left,
 };
 
-// ƒLƒƒƒ‰ƒNƒ^[‚ÌŒü‚«
+// ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®å‘ã
 enum PlayerDirection {
   Move_L = -1,
   Move_R = 1,
 };
 
-// ƒVƒXƒeƒ€Œn
+// ã‚·ã‚¹ãƒ†ãƒ ç³»
 enum System {
   FPS = 60,
 };
 
-// À•WAƒTƒCƒYA‰ñ“]ó‘ÔA‰ñ“]‘¬“x
+// åº§æ¨™ã€ã‚µã‚¤ã‚ºã€å›è»¢çŠ¶æ…‹ã€å›è»¢é€Ÿåº¦
 struct Transform {
   Vec2f pos, scale;
   float rotate, angle;
 };
 
-// ‰æ‘œAØ‚èo‚µŠJnˆÊ’uAØ‚èæ‚èƒTƒCƒYAF
+// ç”»åƒ IDã€åˆ‡ã‚Šå‡ºã—é–‹å§‹ä½ç½®ã€åˆ‡ã‚Šå–ã‚Šã‚µã‚¤ã‚ºã€è‰²
 struct Sprite {
-  Texture texture;
+  u_int id;
   Vec2f start, size;
   Color color;
 };
 
-// ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‹@”\‚ÌŒÄ‚Ño‚µ
+// ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³æ©Ÿèƒ½ã®å‘¼ã³å‡ºã—
 AppEnv& Env();
 
-// —”‚ğ“¾‚é
+// ä¹±æ•°ã‚’å¾—ã‚‹
 Random& Rand();
 
 }  // end frameworks

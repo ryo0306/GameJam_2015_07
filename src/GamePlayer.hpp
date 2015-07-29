@@ -1,4 +1,4 @@
-
+ï»¿
 #pragma once
 #include "Common.hpp"
 #include "Scene/SceneManager.h"
@@ -10,19 +10,16 @@ class GamePlayer {
 public:
   GamePlayer(const scene::SceneName scene) : manager(scene) {}
 
-  // ƒQ[ƒ€‚ÌXV
   void Update() {
     manager.Update();
   }
 
-  // ƒQ[ƒ€‚Ì•`‰æ
   void Draw() {
-    Env().begin();   // •`‰æ€”õ
+    Env().begin();
     manager.Draw();
-    Env().end();     // ‰æ–ÊXV
+    Env().end();
   }
 
-  // ƒQ[ƒ€‹N“®’†‚©‚Ç‚¤‚©
   const bool IsRunning() {
     return Env().isOpen() && !Env().isPushKey(ESCAPE);
   }

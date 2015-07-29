@@ -1,5 +1,5 @@
-
-#include "DrawTexture.h"
+﻿
+#include "OffsetOrigin.h"
 #include <map>
 
 
@@ -20,20 +20,6 @@ const Vec2f& OffsetTextureOrigin(const Origin info) {
   };
 
   return offsetTable.find(info)->second;
-}
-
-void DrawTexture(const Transform& transform,
-                 const Sprite& sprite,
-                 const Vec2f& offset) {
-  const Vec2f& scale = transform.scale;
-  const auto origin = Vec2f(scale.x() * offset.x(),
-                            scale.y() * offset.y());
-
-  drawTextureBox(transform.pos.x(), transform.pos.y(), 1, 1,
-                 sprite.start.x(), sprite.start.y(),
-                 sprite.size.x(), sprite.size.y(),
-                 sprite.texture, sprite.color,
-                 transform.rotate, transform.scale, origin);
 }
 
 bool IsHitRectToRect(const Vec2f& pos1, const Vec2f& size1,
