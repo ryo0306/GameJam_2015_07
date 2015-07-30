@@ -38,6 +38,7 @@ void Stage::Setup(const StageID stage) {
 
 void Stage::Update() {
   back.Update();
+  gimmick.Update();
   goal.Update();
 }
 

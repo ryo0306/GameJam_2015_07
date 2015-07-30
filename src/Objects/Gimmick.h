@@ -10,9 +10,10 @@ class Gimmick {
 public:
   Gimmick(const int, const Vec2f&);
 
+  void Update();
   void Draw(const std::vector<u_int>&, const float);
 
-  void IconStateShift() { pushState = !pushState; }
+  void IconStateShift();
   const bool IsPushed() const { return pushState; }
 
   Vec2f& GetPos() { return pos; }
@@ -22,6 +23,10 @@ private:
   Vec2f pos;
   int direction;
   bool pushState;
+
+  float alpha;
+
+  const Color GetColor();
 };
 
 }

@@ -11,6 +11,7 @@ public:
   GimmickController() {}
   void Setup(const StageID, const float);
 
+  void Update();
   void Draw();
 
   void SwitchPush(const int);

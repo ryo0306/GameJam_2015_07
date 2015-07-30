@@ -59,6 +59,11 @@ void GimmickController::Setup(const StageID stage,
 }
 
 
+void GimmickController::Update() {
+  for (auto& gimmick : gimmicks) { gimmick.Update(); }
+}
+
+
 void GimmickController::Draw() {
   for (auto& gimmick : gimmicks) {
     gimmick.Draw(textureID, *gimmickSize);
@@ -74,6 +79,10 @@ void GimmickController::SwitchPush(const int direction) {
 
     // 押したスイッチと押されていたスイッチ以外は変更しない
     if (nowDirection != direction && !nowIconState) continue;
+
+    // 同じスイッチを押したときも変更しない
+    if (nowDirection == direction && nowIconState) return;
+
     gimmick.IconStateShift();
   }
 }
