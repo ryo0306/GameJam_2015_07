@@ -162,9 +162,9 @@ void Title::TextureSetup() {
 
     "res/png/title_back.png",     //[10]背景
     "res/png/title_logo.png",     //[11]
-    "res/png/stage1.png",         //[12]アイコン
-    "res/png/stage2.png",         //[13]
-    "res/png/stage3.png",         //[14]
+    "res/png/title_stage1.png",   //[12]アイコン
+    "res/png/title_stage2.png",   //[13]
+    "res/png/title_stage3.png",   //[14]
     "res/png/title_cursor.png",   //[15]葉っぱカーソル
     "res/png/title_start.png",    //[16]スタート操作
 
