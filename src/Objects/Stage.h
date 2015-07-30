@@ -1,39 +1,34 @@
-
+﻿
 #pragma once
-#include "Object.hpp"
-#include <vector>
+#include "BackGround.h"
+#include "Block.h"
+#include "GimmickController.h"
+#include "Goal.h"
 
 
 namespace frameworks {
 namespace object {
 
 class Stage {
+  typedef std::unique_ptr<const float>  Size;
+  typedef std::vector<Gimmick>  Gimmicks;
+
 public:
-  Stage() = default;
-  void Setup();
-  void GoalSetup(const Block&, const int);
+  Stage() {}
+
+  void Setup(const StageID);
 
   void Update();
   void Draw();
 
-  void Goal();
-  void GoalDraw();
-
-  const Blocks& GetTransforms() const { return blocks; }
-  const Block& GetGoalPos() const { return goal; }
-
-  void BackDraw();
-
 private:
-  Blocks blocks;
-  std::vector<u_int> blockID;
+  StageID stage;
+  std::unique_ptr<const float> stageScale;
 
-  Block goal;
-  std::vector<u_int> goalID;
-  u_int drawID;
-  u_int direction;
-
-  std::vector<u_int> backID;
+  BackGround back;
+  Block block;
+  GimmickController gimmick;
+  Goal goal;
 };
 
 }

@@ -16,7 +16,7 @@ public:
   void Draw() override;
 
   void Start(const Vec2f&, const float);
-  void CollisionSetup(const Blocks& blocks) { stageBlocks = blocks; }
+//  void CollisionSetup(const Blocks& blocks) { stageBlocks = blocks; }
 
   void GravityUpdate();
   void GravityReset() { velocity = 0.0f; }
@@ -41,7 +41,7 @@ private:
 
   std::vector<u_int> textureID;
 
-  Blocks stageBlocks;
+  //Blocks stageBlocks;
 
   void Move(const Vec2f&);
   const bool DisableMove();

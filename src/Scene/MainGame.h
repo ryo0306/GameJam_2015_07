@@ -1,9 +1,9 @@
 
 #pragma once
 #include "SceneBase.hpp"
-#include "../Objects/Stage.h"
 #include "../Objects/Player.h"
-#include "../Objects/Gimmick.h"
+#include "../Objects/Stage.h"
+
 
 namespace frameworks {
 namespace scene {
@@ -16,11 +16,11 @@ public:
   void Draw() override;
 
 private:
-	object::Player player;
-  object::Stage stage;
-  std::vector<object::StageGimmick> gimmicks;
+	//object::Player player;
+  object::Stage  stage;
 
   std::vector<u_int> mediaID;
+  void MediaSetup();
 };
 
 }  // end scene

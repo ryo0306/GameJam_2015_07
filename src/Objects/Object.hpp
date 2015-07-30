@@ -1,26 +1,23 @@
-
+ï»¿
 #pragma once
 #include "../Common.hpp"
 #include "../Resources/Resource.h"
 #include "../Utility/Collision.h"
 #include "../Utility/GameData.h"
 #include <memory>
+#include <vector>
 
 
 namespace frameworks {
 namespace object {
-
-struct Block {
-  Vec2f pos, size;
-  u_int id;
-};
-typedef std::vector<Block>  Blocks;
 
 enum ObjectState {
   ALIVE = -1,
   DEAD = 0,
 
   All_State,
+
+  TIME = 60,
 };
 
 class Object {
@@ -31,18 +28,18 @@ public:
   virtual void Update() {}
   virtual void Draw() = 0;
 
-  // ƒIƒuƒWƒFƒNƒg‚ÌíœƒJƒEƒ“ƒ^‚ğŒ¸‚ç‚·
+  // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å‰Šé™¤ã‚«ã‚¦ãƒ³ã‚¿ã‚’æ¸›ã‚‰ã™
   void DeadTimeUpdate() { if (deadTime > DEAD) --deadTime; }
 
-  // ƒIƒuƒWƒFƒNƒg‚Ìíœƒtƒ‰ƒO‚ğ•Ô‚·
+  // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å‰Šé™¤ãƒ•ãƒ©ã‚°ã‚’è¿”ã™
   const bool IsDead() const { return deadTime == DEAD; }
 
-  // À•W‚È‚Ç‚ğ•Ô‚·
+  // åº§æ¨™ãªã©ã‚’è¿”ã™
   const Transform& GetTransform() const { return transform; }
 
 protected:
-  int deadTime;          // íœƒJƒEƒ“ƒ^F0 ‚Ì‚Æ‚«Aíœ‚³‚ê‚é
-  Transform transform;   // À•WAƒTƒCƒYA‰ñ“]ó‘ÔA‰ñ“]‘¬“x
+  int deadTime;          // å‰Šé™¤ã‚«ã‚¦ãƒ³ã‚¿ï¼š0 ã®ã¨ãã€å‰Šé™¤ã•ã‚Œã‚‹
+  Transform transform;   // åº§æ¨™ã€ã‚µã‚¤ã‚ºã€å›è»¢çŠ¶æ…‹ã€å›è»¢é€Ÿåº¦
 };
 
 }  // end object

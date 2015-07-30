@@ -58,7 +58,7 @@ void Player::Update() {
 
   const auto& pos = transform.pos;
   const auto& size = transform.scale;
-
+  /*
   for (auto& block : stageBlocks) {
     isHit = IsHitRectToRect(pos, size, block.pos, block.size);
     if (!isHit) continue;
@@ -87,6 +87,7 @@ void Player::Update() {
     GravityReset();
     enableMove = true;
   }
+  */
 
   //âÊñ äOÇ…çsÇ¡ÇΩÇÁñﬂÇÈèàóù
   const Vec2f window(1600, 900);
@@ -190,6 +191,7 @@ const bool Player::DisableMove() {
   bool hitL, hitR, hitT, hitB;
   hitL = hitR = hitT = hitB = false;
 
+  /*
   for (auto& block : stageBlocks) {
     const bool hit = IsHitRectToRect(Pos, Size,
                                      block.pos, block.size);
@@ -220,6 +222,7 @@ const bool Player::DisableMove() {
     default:;
     }
   }
+  */
 
   return false;
 }

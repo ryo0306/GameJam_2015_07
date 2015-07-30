@@ -1,27 +1,30 @@
-
+﻿
 #include "Gimmick.h"
 
 using namespace frameworks::object;
 
 
-StageGimmick::StageGimmick(const int direction,
-                           const Vec2f& pos,
-                           const Vec2f& size) :
-direction(direction) {
-  pushState = direction != GravityDirection::Bottom ? 0 : 4;
-
-  transform.pos = pos;
-  transform.scale = size;
-  transform.rotate = transform.angle = 0.0f;
+Gimmick::Gimmick(const int direction,
+                 const Vec2f& pos) :
+direction(direction),
+pos(pos) {
+  pushState = (direction == GravityDirection::Bottom);
 }
 
 
-void StageGimmick::Draw() {
-  const auto id = GameData::Get().GimmickID()[direction + pushState];
+void Gimmick::Draw(const std::vector<u_int>& idList,
+                   const float gimmickSize) {
+  const auto id = idList[pushState ? direction + 4 : direction];
   const auto texture = Asset().Find().Texture(id);
-  const float Size = 100.0f;
 
-  drawTextureBox(transform.pos.x(), transform.pos.y(),
-                 transform.scale.x(), transform.scale.y(),
-                 0, 0, Size, Size, *texture);
+  const float offset = gimmickSize * 0.5f;
+  const Vec2f drawPos = pos + (Vec2f::Ones() * offset);
+  const float cutSize = 128.0f;
+
+  drawTextureBox(drawPos.x(), drawPos.y(),
+                 gimmickSize, gimmickSize,
+                 0, 0, cutSize, cutSize,
+                 *texture, Color::white,
+                 0, Vec2f::Ones(),
+                 Vec2f::Ones() * offset);
 }

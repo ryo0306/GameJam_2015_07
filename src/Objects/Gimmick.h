@@ -1,4 +1,4 @@
-
+﻿
 #pragma once
 #include "Object.hpp"
 
@@ -6,20 +6,22 @@
 namespace frameworks {
 namespace object {
 
-class StageGimmick {
+class Gimmick {
 public:
-  StageGimmick(const int, const Vec2f&, const Vec2f&);
+  Gimmick(const int, const Vec2f&);
 
-  void Draw();
+  void Draw(const std::vector<u_int>&, const float);
 
-  Transform& GetTransform() { return transform; }
+  void IconStateShift() { pushState = !pushState; }
+  const bool IsPushed() const { return pushState; }
+
+  Vec2f& GetPos() { return pos; }
   const int GetDirection() const { return direction; }
-  int& GetState() { return pushState; }
 
 private:
-  Transform transform;
+  Vec2f pos;
   int direction;
-  int pushState;
+  bool pushState;
 };
 
 }
