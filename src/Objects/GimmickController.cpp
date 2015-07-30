@@ -38,18 +38,18 @@ void GimmickController::Setup(const StageID stage,
 
     case StageID::Stage3:
       gimmicks = {
-        { GravityDirection::Bottom, Vec2f(-7, 3.5f) },
-        { GravityDirection::Right, Vec2f(-10.5f, 4.5f) },
-        { GravityDirection::Bottom, Vec2f(-4.5f, 4.5f) },
-        { GravityDirection::Right, Vec2f(-4.5f, -0) },
+        { GravityDirection::Bottom, Vec2f(-6, 2) },
+        { GravityDirection::Right, Vec2f(-10, 4) },
+        { GravityDirection::Bottom, Vec2f(-4, 4) },
+        { GravityDirection::Right, Vec2f(-4, -0) },
         { GravityDirection::Right, Vec2f(-9, -7) },
         { GravityDirection::Left, Vec2f(-2, -7) },
-        { GravityDirection::Left, Vec2f(8.5f, 5) },
+        { GravityDirection::Left, Vec2f(7, 4) },
         { GravityDirection::Left, Vec2f(0, 0) },
-        { GravityDirection::Top, Vec2f(7.5f, 0) },
-        { GravityDirection::Right, Vec2f(6.5f, -5) },
-        { GravityDirection::Bottom, Vec2f(5.5f, 2.5f) },
-        { GravityDirection::Top, Vec2f(6.5f, -7) },
+        { GravityDirection::Top, Vec2f(6, 0) },
+        { GravityDirection::Right, Vec2f(6, -4) },
+        { GravityDirection::Bottom, Vec2f(5, 2) },
+        { GravityDirection::Top, Vec2f(6, -7) },
       };
       break;
   }

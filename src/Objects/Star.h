@@ -16,7 +16,7 @@ public:
     pos(pos),
     scale(scale),
     rotate(0.0f),
-    angle(Rand()()),
+    angle(Rand()() * 0.1f + 0.1f),
     alpha(0.0) {}
 
   void Update();

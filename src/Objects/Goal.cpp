@@ -37,7 +37,7 @@ void Goal::Draw() {
   const float cutSize = 512.0f;
   const float scale = std::abs(std::sin(transform.angle)) * 0.1f;
 
-  drawTextureBox(pos.x(), pos.y() + (scale * 10),
+  drawTextureBox(pos.x(), pos.y(),
                  transform.scale.x(), transform.scale.y(),
                  0, 0, cutSize, cutSize,
                  *texture, Color::white,
