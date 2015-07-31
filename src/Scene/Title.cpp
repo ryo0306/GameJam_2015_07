@@ -28,12 +28,14 @@ void Title::Update() {
 
   if (Env().isPushKey(SPACE)) {
     isFinish = true;
-    Asset().Find().Media(mediaID[0])->stop();
+    Asset().Find().Media(mediaID[BGM])->stop();
+    Asset().Find().Media(mediaID[Start])->play();
     GameData::Get().SetStageID(StageID(select));
   }
 
-  if (Env().isPushKey(KEY_L) && select > 0) { --select; }
-  if (Env().isPushKey(KEY_R) && select < 2) { ++select; }
+  auto& se = *Asset().Find().Media(mediaID[Select]);
+  if (Env().isPushKey(KEY_L) && select > 0) { --select; se.play(); }
+  if (Env().isPushKey(KEY_R) && select < 2) { ++select; se.play(); }
 
   ParticleUpdate();
 }
