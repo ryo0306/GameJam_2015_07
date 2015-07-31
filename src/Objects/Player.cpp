@@ -6,7 +6,7 @@ using namespace frameworks::object;
 
 
 Player::Player() :
-time(0),
+keyActiveTime(0),
 gravityState(GravityDirection::Bottom),
 direction(Move_R),
 acceleration(0.25f),
@@ -41,14 +41,20 @@ void Player::Update() {
   using namespace utility;
 
   // キー入力有効のタイムカウンタを減らす
-  if (IsKeyActive()) time--;
+  if (IsKeyActivate()) keyActiveTime--;
 
   // ギミック発動
-  // 5 フレームは発動しない
-  if (!IsKeyActive() && Env().isPushKey(SPACE)) {
-    time = KeyActiveTime;
+  if (!IsKeyActivate() && Env().isPushKey(SPACE)) {
+    keyActiveTime = KeyActiveCount;
   }
 
+  if (Env().isPressKey(KEY_L)) { Move(Vec2f(-MoveSpeed, 0)); }
+  if (Env().isPressKey(KEY_R)) { Move(Vec2f(MoveSpeed, 0)); }
+  if (Env().isPressKey(KEY_D)) { Move(Vec2f(0, -MoveSpeed)); }
+  if (Env().isPressKey(KEY_U)) { Move(Vec2f(0, MoveSpeed)); }
+
+
+  /*
   // 重力
   GravityUpdate();
 
@@ -58,7 +64,6 @@ void Player::Update() {
 
   const auto& pos = transform.pos;
   const auto& size = transform.scale;
-  /*
   for (auto& block : stageBlocks) {
     isHit = IsHitRectToRect(pos, size, block.pos, block.size);
     if (!isHit) continue;
@@ -87,18 +92,7 @@ void Player::Update() {
     GravityReset();
     enableMove = true;
   }
-  */
 
-  //画面外に行ったら戻る処理
-  const Vec2f window(1600, 900);
-
-  if (transform.pos.x() < -window.x() / 2 || transform.pos.x() > window.x() / 2 ||
-      transform.pos.y() < -window.y() / 2 || transform.pos.y() > window.y() / 2)
-  {
-    transform.pos = start;
-    gravityState = GravityDirection::Bottom;
-    GravityReset();
-  }
 
   if (!isHit && !enableMove) return;
 
@@ -113,6 +107,7 @@ void Player::Update() {
     if (Env().isPressKey(KEY_D)) { Move(Vec2f(0, -MoveSpeed)); }
     if (Env().isPressKey(KEY_U)) { Move(Vec2f(0, MoveSpeed)); }
   }
+  */
 }
 
 
@@ -154,6 +149,16 @@ void Player::GravityUpdate() {
 
   velocity += acceleration;
   if (velocity > 10.0f) velocity = 10.0f;
+
+  // 画面外に行ったら戻る処理
+  const Vec2f window(WIDTH, HEIGHT);
+
+  if (transform.pos.x() < -window.x() / 2 || transform.pos.x() > window.x() / 2 ||
+      transform.pos.y() < -window.y() / 2 || transform.pos.y() > window.y() / 2) {
+    transform.pos = start;
+    gravityState = GravityDirection::Bottom;
+    GravityReset();
+  }
 }
 
 

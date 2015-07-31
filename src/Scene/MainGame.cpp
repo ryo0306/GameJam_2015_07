@@ -1,6 +1,7 @@
 ﻿
 #include "MainGame.h"
 
+using namespace frameworks;
 using namespace frameworks::scene;
 using namespace frameworks::object;
 using namespace frameworks::utility;
@@ -9,92 +10,90 @@ using namespace frameworks::utility;
 MainGame::MainGame() :
 SceneBase(SceneName::Main, SceneName::Result) {
   const auto stageID = GameData::Get().GetStageID();
-  Asset().Delete().All();
 
+  Asset().Delete().All();
   GameData::Get().CountReset();
 
-  //player.Setup(stageID);
-  stage.Setup(stageID);
+  float stageScale = 0.0f;
 
-  MediaSetup();
-  Asset().Find().Media(mediaID[stageID])->play();
+  player.Setup();
 
-  /*
+  back.Setup(stageID);
+  prickle.Setup();
 
-
-  // プレイヤーとゴールの座標を設定
-  float playerScale;
-  float goalScale;
   switch (stageID) {
     default:;
     case StageID::Stage1:
-      playerScale = 50.0f;
-      goalScale = 150.0f;
-      bgm1->play();
+      stageScale = 80.0f;
 
-      player.Start(Vec2f(-2, -2.5) * playerScale, playerScale);
-      stage.GoalSetup({ Vec2f(-2.0, -1) * goalScale, Vec2f::Ones() * goalScale, 0 },
-                      GravityDirection::Bottom);
+      player.Start(Vec2f(-1, -1) * stageScale, 60.0f);
+      goal.Setup(Vec2f(-3.6f, -1.6f) * stageScale, stageScale * 1.5f,
+                 GravityDirection::Bottom);
       break;
 
     case StageID::Stage2:
-      playerScale = 50.0f;
-      goalScale = 80.0f;
-      bgm2->play();
+      stageScale = 50.0f;
 
-      player.Start(Vec2f(-5.5, -3.5) * playerScale, playerScale);
-      stage.GoalSetup({ Vec2f(2.2, -2.5) * goalScale, Vec2f::Ones() * goalScale * 1.5, 0 },
-                      GravityDirection::Right);
+      player.Start(Vec2f(-6, -3) * stageScale, 40.0f);
+      goal.Setup(Vec2f(4.1f, -3) * stageScale, stageScale * 1.5f,
+                 GravityDirection::Right);
       break;
 
     case StageID::Stage3:
-      playerScale = 50.0f;
-      goalScale = 80.0f;
-      bgm3->play();
+      stageScale = 50.0f;
 
-      player.Start(Vec2f(1, 0) * playerScale, playerScale);
-      stage.GoalSetup({ Vec2f(0, -2) * goalScale, Vec2f::Ones() * goalScale * 1.5, 0 },
-                      GravityDirection::Top);
+      player.Start(Vec2f(1, 1) * stageScale, 40.0f);
+      goal.Setup(Vec2f(0.25f, -2.4f) * stageScale, stageScale * 1.5f,
+                 GravityDirection::Top);
       break;
   }
 
-  player.CollisionSetup(stage.GetTransforms());
-  */
+  block.Setup(stageID, stageScale);
+  gimmick.Setup(stageID, stageScale);
+
+  MediaSetup();
+  Asset().Find().Media(mediaID[stageID])->play();
 }
 
 
 void MainGame::Update() {
-  stage.Update();
-  /*
+  back.Update();
+  gimmick.Update();
+  goal.Update();
   player.Update();
+
+  /*
 
   const auto& playerPos = player.GetTransform().pos;
   const auto& playerSize = player.GetTransform().scale;
 
   for (auto& gimmick : gimmicks) {
-    const auto& gimmickPos = gimmick.GetTransform().pos;
-    const auto& gimmickSize = gimmick.GetTransform().scale;
+  const auto& gimmickPos = gimmick.GetTransform().pos;
+  const auto& gimmickSize = gimmick.GetTransform().scale;
 
-    const auto hit = IsHitRectToRect(playerPos, playerSize,
-                                     gimmickPos, gimmickSize);
-    if (!hit) { continue; }
+  const auto hit = IsHitRectToRect(playerPos, playerSize,
+  gimmickPos, gimmickSize);
+  if (!hit) { continue; }
 
-    if (player.IsKeyActive()) {
-      player.SetGravityDirection(gimmick.GetDirection());
-      player.GravityReset();
-      ++GameData::Get().GimmickCount();
-      Asset().Find().Media(mediaID[5])->play();
-    }
+  if (player.IsKeyActive()) {
+  player.SetGravityDirection(gimmick.GetDirection());
+  player.GravityReset();
+  ++GameData::Get().GimmickCount();
+  Asset().Find().Media(mediaID[5])->play();
+  }
   }
 
   const auto goal = stage.GetGoalPos();
   if (IsHitRectToRect(playerPos, playerSize, goal.pos, goal.size)) {
-    isFinish = true;
-    Asset().Find().Media(mediaID[0])->stop();
-    Asset().Find().Media(mediaID[1])->stop();
-    Asset().Find().Media(mediaID[2])->stop();
+  isFinish = true;
+  Asset().Find().Media(mediaID[0])->stop();
+  Asset().Find().Media(mediaID[1])->stop();
+  Asset().Find().Media(mediaID[2])->stop();
   }
 
+  */
+
+  // タイトルに戻る
   const auto Enter = Env().isPressKey(ENTER);
   if (Env().isPushKey('R') && Enter) {
     next = SceneName::Title;
@@ -103,13 +102,16 @@ void MainGame::Update() {
     Asset().Find().Media(mediaID[1])->stop();
     Asset().Find().Media(mediaID[2])->stop();
   }
-  */
 }
 
 
 void MainGame::Draw() {
-  stage.Draw();
-  //player.Draw();
+  back.Draw();
+  prickle.Draw(player.GetDirection());
+  block.Draw();
+  gimmick.Draw();
+  goal.Draw();
+  player.Draw();
 }
 
 

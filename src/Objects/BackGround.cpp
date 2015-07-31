@@ -46,7 +46,7 @@ void BackGround::Setup(const StageID stage) {
 
 void BackGround::Update() {
   if (stage != StageID::Stage3) {
-    texturePosX = (texturePosX < 2048) ? texturePosX + 1.0f : 0.0f;
+    texturePosX = (texturePosX < FogSize) ? texturePosX + 0.5f : 0.0f;
   }
   else {
     auto itr = stars.begin();
@@ -69,11 +69,11 @@ void BackGround::Update() {
 
 void BackGround::Draw() {
   const Vec2f window(WIDTH, HEIGHT);
-  const Vec2f fogSize(2048, 1024);
+  const Vec2f fogSize(FogSize, FogSize / 2);
 
   const auto back = Asset().Find().Texture(textureID[Stage]);
   drawTextureBox(-window.x() / 2, -window.y() / 2, window.x(), window.y(),
-                 0, 0, window.x(), window.y(), *back);
+                 0, 0, window.x() / 2, window.y() / 2, *back);
 
   if (stage != StageID::Stage3) {
     const auto fog = Asset().Find().Texture(textureID[Fog]);

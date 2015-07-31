@@ -16,32 +16,30 @@ public:
   void Draw() override;
 
   void Start(const Vec2f&, const float);
-//  void CollisionSetup(const Blocks& blocks) { stageBlocks = blocks; }
 
   void GravityUpdate();
   void GravityReset() { velocity = 0.0f; }
   void SetGravityDirection(const int dir) { gravityState = dir; }
 
-  const bool IsKeyActive() const { return time > 0; }
+  const bool IsKeyActivate() const { return keyActiveTime > 0; }
+  const int GetDirection() const { return gravityState; }
 
 private:
   enum {
-    KeyActiveTime = 1,
+    KeyActiveCount = 1,
     MoveSpeed = 10,
   };
 
   Vec2f start;
 	
-	int time;
-  u_int gravityState;
+	int keyActiveTime;
+  int gravityState;
 	int direction;
 
   float acceleration;
 	float velocity;
 
   std::vector<u_int> textureID;
-
-  //Blocks stageBlocks;
 
   void Move(const Vec2f&);
   const bool DisableMove();

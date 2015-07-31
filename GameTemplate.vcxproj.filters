@@ -162,9 +162,6 @@
     <ClInclude Include="src\Objects\Particle.h">
       <Filter>Source Files\Objects\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="src\Objects\Stage.h">
-      <Filter>Source Files\Objects\Stage</Filter>
-    </ClInclude>
     <ClInclude Include="src\Objects\Gimmick.h">
       <Filter>Source Files\Objects\Stage</Filter>
     </ClInclude>
@@ -182,6 +179,9 @@
     </ClInclude>
     <ClInclude Include="src\Objects\Star.h">
       <Filter>Source Files\Objects\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Objects\Prickle.h">
+      <Filter>Source Files\Objects\Stage</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -278,9 +278,6 @@
     <ClCompile Include="src\Objects\Particle.cpp">
       <Filter>Source Files\Objects\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="src\Objects\Stage.cpp">
-      <Filter>Source Files\Objects\Stage</Filter>
-    </ClCompile>
     <ClCompile Include="src\Objects\Gimmick.cpp">
       <Filter>Source Files\Objects\Stage</Filter>
     </ClCompile>
@@ -298,6 +295,9 @@
     </ClCompile>
     <ClCompile Include="src\Objects\Star.cpp">
       <Filter>Source Files\Objects\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Objects\Prickle.cpp">
+      <Filter>Source Files\Objects\Stage</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

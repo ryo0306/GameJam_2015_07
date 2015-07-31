@@ -19,6 +19,7 @@ public:
 
 private:
   enum { Stage, Fog, };
+  enum { FogSize = 1024, };
   std::vector<u_int> textureID;
   float texturePosX;
 
