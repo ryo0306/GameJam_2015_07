@@ -16,7 +16,8 @@ public:
   void IconStateShift();
   const bool IsPushed() const { return pushState; }
 
-  Vec2f& GetPos() { return pos; }
+  void OffsetScaleToPos(const float scale) { pos *= scale; }
+  const Vec2f& GetPos() const { return pos; }
   const int GetDirection() const { return direction; }
 
 private:

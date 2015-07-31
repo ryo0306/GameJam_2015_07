@@ -55,7 +55,7 @@ void GimmickController::Setup(const StageID stage,
   }
 
   // サイズを座標に反映
-  for (auto& gimmick : gimmicks) { gimmick.GetPos() *= size; }
+  for (auto& gimmick : gimmicks) { gimmick.OffsetScaleToPos(size); }
 }
 
 

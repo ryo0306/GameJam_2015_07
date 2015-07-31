@@ -28,8 +28,21 @@ private:
   object::Goal goal;
   object::Prickle prickle;
 
+  enum {
+    BgmStage1,
+    BgmStage2,
+    BgmStage3,
+    SeSwitch,
+    SeGoal,
+    SeFall,
+    SeCrash,
+  };
   std::vector<u_int> mediaID;
+  bool isFall;
   void MediaSetup();
+
+  const Vec2f GroundPos(const Vec2f&, const Vec2f&);
+  const Vec2f WallPos(const Vec2f&, const Vec2f&);
 };
 
 }  // end scene

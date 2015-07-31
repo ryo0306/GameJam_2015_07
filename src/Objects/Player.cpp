@@ -6,9 +6,9 @@ using namespace frameworks::object;
 
 
 Player::Player() :
-keyActiveTime(0),
 gravityState(GravityDirection::Bottom),
 direction(Move_R),
+enableMove(false),
 acceleration(0.25f),
 velocity(0.0f) {
 }
@@ -38,65 +38,11 @@ void Player::Start(const Vec2f& pos, const float size) {
 
 
 void Player::Update() {
-  using namespace utility;
 
-  // キー入力有効のタイムカウンタを減らす
-  if (IsKeyActivate()) keyActiveTime--;
+  // 移動できる状況でなければ、キー判定をスキップ
+  if (!enableMove) { return; }
 
-  // ギミック発動
-  if (!IsKeyActivate() && Env().isPushKey(SPACE)) {
-    keyActiveTime = KeyActiveCount;
-  }
-
-  if (Env().isPressKey(KEY_L)) { Move(Vec2f(-MoveSpeed, 0)); }
-  if (Env().isPressKey(KEY_R)) { Move(Vec2f(MoveSpeed, 0)); }
-  if (Env().isPressKey(KEY_D)) { Move(Vec2f(0, -MoveSpeed)); }
-  if (Env().isPressKey(KEY_U)) { Move(Vec2f(0, MoveSpeed)); }
-
-
-  /*
-  // 重力
-  GravityUpdate();
-
-  // ブロックとの衝突判定
-  bool isHit = false;
-  bool enableMove = false;
-
-  const auto& pos = transform.pos;
-  const auto& size = transform.scale;
-  for (auto& block : stageBlocks) {
-    isHit = IsHitRectToRect(pos, size, block.pos, block.size);
-    if (!isHit) continue;
-
-    velocity -= acceleration;
-    switch (gravityState) {
-    case GravityDirection::Top:
-      transform.pos.y() -= velocity;
-      break;
-
-    case GravityDirection::Bottom:
-      transform.pos.y() += velocity;
-      break;
-
-    case GravityDirection::Left:
-      transform.pos.x() += velocity;
-      break;
-
-    case GravityDirection::Right:
-      transform.pos.x() -= velocity;
-      break;
-
-    default: break;
-    }
-
-    GravityReset();
-    enableMove = true;
-  }
-
-
-  if (!isHit && !enableMove) return;
-
-  // 移動処理
+  // 移動キーの入力受付
   if (gravityState == GravityDirection::Top ||
       gravityState == GravityDirection::Bottom) {
     if (Env().isPressKey(KEY_L)) { Move(Vec2f(-MoveSpeed, 0)); }
@@ -107,127 +53,73 @@ void Player::Update() {
     if (Env().isPressKey(KEY_D)) { Move(Vec2f(0, -MoveSpeed)); }
     if (Env().isPressKey(KEY_U)) { Move(Vec2f(0, MoveSpeed)); }
   }
-  */
 }
 
 
 void Player::Draw() {
-  const float Size = 512.0f;
   const auto texture = Asset().Find().Texture(textureID[gravityState]);
-  const auto pos = transform.pos + transform.scale * 0.5f;
+
+  const auto offset = transform.scale * 0.5f;
+  const auto pos = transform.pos + offset;
+  const float Size = 512.0f;
 
   drawTextureBox(pos.x(), pos.y(),
                  transform.scale.x(), transform.scale.y(),
                  0, 0, Size, Size,
                  *texture, Color::white,
                  gravityState * (M_PI / 2),
-                 Vec2f(direction, 1),
-                 transform.scale * 0.5f);
+                 Vec2f(direction, 1), offset);
 }
 
 
 void Player::GravityUpdate() {
-  switch (gravityState) {
-  case GravityDirection::Top:
-    transform.pos.y() += velocity;
-    break;
 
-  case GravityDirection::Bottom:
-    transform.pos.y() -= velocity;
-    break;
-
-  case GravityDirection::Left:
-    transform.pos.x() -= velocity;
-    break;
-
-  case GravityDirection::Right:
-    transform.pos.x() += velocity;
-    break;
-
-  default: break;
-  }
-
+  // 落ちる速度が上がりすぎないように抑制
   velocity += acceleration;
-  if (velocity > 10.0f) velocity = 10.0f;
+  if (velocity > GravityMax) velocity = GravityMax;
 
-  // 画面外に行ったら戻る処理
-  const Vec2f window(WIDTH, HEIGHT);
+  // 重力の向きに合わせて落ちる
+  switch (gravityState) {
+    case GravityDirection::Top:
+      transform.pos.y() += velocity;
+      break;
 
-  if (transform.pos.x() < -window.x() / 2 || transform.pos.x() > window.x() / 2 ||
-      transform.pos.y() < -window.y() / 2 || transform.pos.y() > window.y() / 2) {
-    transform.pos = start;
-    gravityState = GravityDirection::Bottom;
-    GravityReset();
+    case GravityDirection::Bottom:
+      transform.pos.y() -= velocity;
+      break;
+
+    case GravityDirection::Left:
+      transform.pos.x() -= velocity;
+      break;
+
+    case GravityDirection::Right:
+      transform.pos.x() += velocity;
+      break;
+
+    default: break;
   }
 }
 
 
 void Player::Move(const Vec2f& moveSpeed) {
   switch (gravityState) {
-  case GravityDirection::Top:
-    direction = moveSpeed.x() > 0 ? Move_L : Move_R;
-    break;
+    default: break;
+    case GravityDirection::Bottom:
+      direction = moveSpeed.x() > 0 ? Move_R : Move_L;
+      break;
 
-  case GravityDirection::Bottom:
-    direction = moveSpeed.x() > 0 ? Move_R : Move_L;
-    break;
+    case GravityDirection::Right:
+      direction = moveSpeed.y() > 0 ? Move_R : Move_L;
+      break;
 
-  case GravityDirection::Left:
-    direction = moveSpeed.y() > 0 ? Move_L : Move_R;
-    break;
+    case GravityDirection::Top:
+      direction = moveSpeed.x() > 0 ? Move_L : Move_R;
+      break;
 
-  case GravityDirection::Right:
-    direction = moveSpeed.y() > 0 ? Move_R : Move_L;
-    break;
-
-  default: break;
+    case GravityDirection::Left:
+      direction = moveSpeed.y() > 0 ? Move_L : Move_R;
+      break;
   }
 
   transform.pos += moveSpeed;
-  if (DisableMove()) { transform.pos -= moveSpeed; }
-}
-
-
-const bool Player::DisableMove() {
-  using namespace utility;
-  const auto& Pos = transform.pos;
-  const auto& Size = transform.scale;
-
-  bool hitL, hitR, hitT, hitB;
-  hitL = hitR = hitT = hitB = false;
-
-  /*
-  for (auto& block : stageBlocks) {
-    const bool hit = IsHitRectToRect(Pos, Size,
-                                     block.pos, block.size);
-
-    if (!hit) continue;
-
-    switch (gravityState) {
-    case GravityDirection::Top:
-      hitL = (Pos.x() + Size.x()) > block.pos.x();
-      hitR = Pos.x() < (block.pos.x() + block.size.x());
-      return hitL && hitR;
-
-    case GravityDirection::Bottom:
-      hitR = (Pos.x() + Size.x()) > block.pos.x();
-      hitL = Pos.x() < (block.pos.x() + block.size.x());
-      return hitL && hitR;
-
-    case GravityDirection::Left:
-      hitT = (Pos.y() + Size.y()) > block.pos.y();
-      hitB = Pos.y() < (block.pos.y() + block.size.y());
-      return hitB && hitT;
-
-    case GravityDirection::Right:
-      hitB = (Pos.y() + Size.y()) > block.pos.y();
-      hitT = Pos.y() < (block.pos.y() + block.size.y());
-      return hitB && hitT;
-
-    default:;
-    }
-  }
-  */
-
-  return false;
 }

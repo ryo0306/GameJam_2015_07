@@ -19,7 +19,7 @@ public:
 
   void Draw();
 
-  const std::vector<Vec2f>& GetBlocks();
+  const std::vector<Vec2f> GetBlocks();
   const Vec2f GetBlockSize()
     const { return std::move(Vec2f::Ones() * (*blockSize)); }
 

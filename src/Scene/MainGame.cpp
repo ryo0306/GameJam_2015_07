@@ -8,7 +8,8 @@ using namespace frameworks::utility;
 
 
 MainGame::MainGame() :
-SceneBase(SceneName::Main, SceneName::Result) {
+SceneBase(SceneName::Main, SceneName::Result),
+isFall(false) {
   const auto stageID = GameData::Get().GetStageID();
 
   Asset().Delete().All();
@@ -60,38 +61,123 @@ void MainGame::Update() {
   back.Update();
   gimmick.Update();
   goal.Update();
-  player.Update();
 
-  /*
+  // ステージクリア
+  if (goal.IsClear()) {
+    auto& se = *Asset().Find().Media(mediaID[SeGoal]);
+    if (!se.isPlaying()) { isFinish = true; }
+    return;
+  }
+
+  // 重力の方向に落とす
+  player.GravityUpdate();
 
   const auto& playerPos = player.GetTransform().pos;
   const auto& playerSize = player.GetTransform().scale;
 
-  for (auto& gimmick : gimmicks) {
-  const auto& gimmickPos = gimmick.GetTransform().pos;
-  const auto& gimmickSize = gimmick.GetTransform().scale;
+  const auto& blockSize = block.GetBlockSize();
+  const auto& gimmickSize = gimmick.GetSize();
 
-  const auto hit = IsHitRectToRect(playerPos, playerSize,
-  gimmickPos, gimmickSize);
-  if (!hit) { continue; }
+  const auto& goalPos = goal.GetTransform().pos;
+  const auto& goalSize = goal.GetTransform().scale;
 
-  if (player.IsKeyActive()) {
-  player.SetGravityDirection(gimmick.GetDirection());
-  player.GravityReset();
-  ++GameData::Get().GimmickCount();
-  Asset().Find().Media(mediaID[5])->play();
+  // 画面外に行ったらスタート地点に戻る
+  {
+    const auto window = Vec2f(WIDTH - 100, HEIGHT - 100) * 0.5f;
+
+    if (playerPos.x() < -window.x() ||
+        playerPos.x() + playerSize.x() > window.x() ||
+        playerPos.y() < -window.y() ||
+        playerPos.y() + playerSize.y() > window.y()) {
+      const auto offset = player.GetStartPos() - playerPos;
+      const auto bottom = GravityDirection::Bottom;
+      player.GravityReset();
+      player.Translate(offset);
+      player.SetGravityDirection(bottom);
+      gimmick.SwitchPush(bottom);
+      Asset().Find().Media(mediaID[SeCrash])->play();
+    }
   }
+
+  // 地面に当たっているか確認
+  {
+    if (player.EnableMove()) { player.SetMoveState(false); }
+    bool isHit = false;
+
+    const auto blocks = block.GetBlocks();
+    for (auto& blockPos : blocks) {
+      isHit = IsHitRectToRect(playerPos, playerSize,
+                              blockPos, blockSize);
+      if (!isHit) { continue; }
+
+      // 当たっていたら地面の上に戻す
+      player.SetMoveState(true);
+      player.GravityReset();
+      player.Translate(GroundPos(blockPos, blockSize));
+      Asset().Find().Media(mediaID[SeFall])->stop();
+      isFall = false;
+      break;
+    }
+
+    // 当たってなければ SE 再生
+    auto& se = *Asset().Find().Media(mediaID[SeFall]);
+    if (!isHit && !isFall) { se.play(); isFall = true; }
   }
 
-  const auto goal = stage.GetGoalPos();
-  if (IsHitRectToRect(playerPos, playerSize, goal.pos, goal.size)) {
-  isFinish = true;
-  Asset().Find().Media(mediaID[0])->stop();
-  Asset().Find().Media(mediaID[1])->stop();
-  Asset().Find().Media(mediaID[2])->stop();
+  player.Update();
+
+  // 壁に当たっているか確認
+  {
+    const auto blocks = block.GetBlocks();
+    for (auto& blockPos : blocks) {
+      const auto isHit = IsHitRectToRect(playerPos, playerSize,
+                                         blockPos, blockSize);
+      if (!isHit) { continue; }
+
+      // 当たっていたら押し返す
+      //player.Translate(Translation(blockPos, blockSize));
+      break;
+    }
   }
 
-  */
+  // ギミック操作の判定
+  {
+    const auto gimmickSize = Vec2f::Ones() * gimmick.GetSize();
+
+    for (auto& it : gimmick.GetGimmicks()) {
+      const auto& gimmickPos = it.GetPos();
+
+      const auto isHit = IsHitRectToRect(playerPos, playerSize,
+                                         gimmickPos, gimmickSize);
+
+      if (!isHit) { continue; }
+
+      const auto isSame = player.GetDirection() == it.GetDirection();
+      if (!player.IsKeyActive() || isSame) { break; }
+
+      player.GravityReset();
+      player.SetGravityDirection(it.GetDirection());
+      gimmick.SwitchPush(it.GetDirection());
+      Asset().Find().Media(mediaID[SeSwitch])->play();
+
+      ++GameData::Get().GimmickCount();
+      break;
+    }
+  }
+
+  // ゴールに到達
+  {
+    const auto& goalPos = goal.GetTransform().pos;
+    const auto& goalSize = goal.GetTransform().scale;
+
+    if (IsHitRectToRect(playerPos, playerSize, goalPos, goalSize)) {
+      goal.StageClear();
+      Asset().Find().Media(mediaID[SeGoal])->play();
+      Asset().Find().Media(mediaID[BgmStage1])->stop();
+      Asset().Find().Media(mediaID[BgmStage2])->stop();
+      Asset().Find().Media(mediaID[BgmStage3])->stop();
+    }
+  }
 
   // タイトルに戻る
   const auto Enter = Env().isPressKey(ENTER);
@@ -142,4 +228,80 @@ void MainGame::MediaSetup() {
   bgm2->looping(true);
   auto bgm3 = Asset().Find().Media(mediaID[2]);
   bgm3->looping(true);
+}
+
+
+const Vec2f MainGame::GroundPos(const Vec2f& blockPos,
+                                const Vec2f& blockSize) {
+  const auto gravity = player.GetDirection();
+  const float offset = 0.01f;
+
+  const auto& playerPos = player.GetTransform().pos;
+  const auto& playerSize = player.GetTransform().scale;
+
+  float temp;
+  Vec2f result;
+
+  switch (gravity) {
+    default:;
+    case GravityDirection::Bottom:
+      temp = blockPos.y() + blockSize.y() - playerPos.y();
+      result = Vec2f(0, temp + offset);
+      break;
+
+    case GravityDirection::Right:
+      temp = playerPos.x() + playerSize.x() - blockPos.x();
+      result = Vec2f(-temp - offset, 0);
+      break;
+
+    case GravityDirection::Top:
+      temp = playerPos.y() + playerSize.y() - blockPos.y();
+      result = Vec2f(0, -temp - offset);
+      break;
+
+    case GravityDirection::Left:
+      temp = blockPos.x() + blockSize.x() - playerPos.x();
+      result = Vec2f(temp + offset, 0);
+      break;
+  }
+
+  return result;
+}
+
+
+const Vec2f MainGame::WallPos(const Vec2f& blockPos,
+                              const Vec2f& blockSize) {
+  const auto gravity = player.GetDirection();
+  const float offset = 0.01f;
+
+  const auto& playerPos = player.GetTransform().pos;
+  const auto& playerSize = player.GetTransform().scale;
+
+  float temp;
+  Vec2f result;
+
+  switch (gravity) {
+    default:;
+    case GravityDirection::Bottom:
+      temp = blockPos.y() + blockSize.y() - playerPos.y();
+      result = Vec2f(0, temp + offset);
+      break;
+
+    case GravityDirection::Right:
+      temp = playerPos.x() + playerSize.x() - blockPos.x();
+      result = Vec2f(-temp - offset, 0);
+      break;
+
+    case GravityDirection::Top:
+      temp = playerPos.y() + playerSize.y() - blockPos.y();
+      result = Vec2f(0, -temp - offset);
+      break;
+
+    case GravityDirection::Left:
+      temp = blockPos.x() + blockSize.x() - playerPos.x();
+      result = Vec2f(temp + offset, 0);
+      break;
+  }
+
+  return result;
 }

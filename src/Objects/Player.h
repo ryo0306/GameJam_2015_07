@@ -16,25 +16,31 @@ public:
   void Draw() override;
 
   void Start(const Vec2f&, const float);
+  const Vec2f& GetStartPos() const { return start; }
 
   void GravityUpdate();
   void GravityReset() { velocity = 0.0f; }
   void SetGravityDirection(const int dir) { gravityState = dir; }
 
-  const bool IsKeyActivate() const { return keyActiveTime > 0; }
+  const bool IsKeyActive() const { return Env().isPushKey(SPACE); }
   const int GetDirection() const { return gravityState; }
+
+  void SetMoveState(const bool state) { enableMove = state; }
+  const bool EnableMove() const { return enableMove; }
+
+  void Translate(const Vec2f& translate) { transform.pos += translate; }
 
 private:
   enum {
-    KeyActiveCount = 1,
-    MoveSpeed = 10,
+    MoveSpeed = 5,
+    GravityMax = 8,
   };
 
   Vec2f start;
 	
-	int keyActiveTime;
   int gravityState;
 	int direction;
+  bool enableMove;
 
   float acceleration;
 	float velocity;
@@ -42,7 +48,6 @@ private:
   std::vector<u_int> textureID;
 
   void Move(const Vec2f&);
-  const bool DisableMove();
 };
 
 }  // end object

@@ -34,7 +34,7 @@ void Block::Draw() {
 }
 
 
-const std::vector<Vec2f>& Block::GetBlocks() {
+const std::vector<Vec2f> Block::GetBlocks() {
   std::vector<Vec2f> pos;
   for (const auto& block : blocks) { pos.push_back(block.pos); }
   return std::move(pos);
