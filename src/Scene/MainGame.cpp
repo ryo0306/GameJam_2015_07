@@ -8,8 +8,8 @@ using namespace frameworks::utility;
 
 
 MainGame::MainGame() :
-SceneBase(SceneName::Main, SceneName::Result),
-isFall(false) {
+  SceneBase(SceneName::Main, SceneName::Result),
+  isFall(false) {
   const auto stageID = GameData::Get().GetStageID();
 
   Asset().Delete().All();
@@ -135,7 +135,7 @@ void MainGame::Update() {
       if (!isHit) { continue; }
 
       // 当たっていたら押し返す
-      //player.Translate(Translation(blockPos, blockSize));
+      player.Translate(WallPos(blockPos, blockSize));
       break;
     }
   }
@@ -277,29 +277,51 @@ const Vec2f MainGame::WallPos(const Vec2f& blockPos,
   const auto& playerPos = player.GetTransform().pos;
   const auto& playerSize = player.GetTransform().scale;
 
+  bool isLeftWall;
+  bool isBottomWall;
+  bool isHit;
+  float playerCollision;
+  float blockCollision;
+
   float temp;
   Vec2f result;
 
   switch (gravity) {
     default:;
     case GravityDirection::Bottom:
-      temp = blockPos.y() + blockSize.y() - playerPos.y();
-      result = Vec2f(0, temp + offset);
+    case GravityDirection::Top:
+      playerCollision = playerPos.x() + playerSize.x();
+      blockCollision = blockPos.x() + blockSize.x();
+
+      isLeftWall = playerPos.x() > blockPos.x();
+      isHit = isLeftWall
+        ? blockCollision > playerPos.x()
+        : playerCollision > blockPos.x();
+
+      temp = isHit ?
+        isLeftWall
+        ? blockCollision - playerPos.x() + offset
+        : blockPos.x() - playerCollision - offset
+        : 0.0f;
+      result = Vec2f(temp, 0);
       break;
 
     case GravityDirection::Right:
-      temp = playerPos.x() + playerSize.x() - blockPos.x();
-      result = Vec2f(-temp - offset, 0);
-      break;
-
-    case GravityDirection::Top:
-      temp = playerPos.y() + playerSize.y() - blockPos.y();
-      result = Vec2f(0, -temp - offset);
-      break;
-
     case GravityDirection::Left:
-      temp = blockPos.x() + blockSize.x() - playerPos.x();
-      result = Vec2f(temp + offset, 0);
+      playerCollision = playerPos.y() + playerSize.y();
+      blockCollision = blockPos.y() + blockSize.y();
+
+      isBottomWall = playerPos.y() > blockPos.y();
+      isHit = isBottomWall
+        ? blockCollision > playerPos.y()
+        : playerCollision > blockPos.y();
+
+      temp = isHit ?
+        isBottomWall
+        ? blockCollision - playerPos.y() + offset
+        : blockPos.y() - playerCollision - offset
+        : 0.0f;
+      result = Vec2f(0, temp);
       break;
   }
 
