@@ -42,6 +42,9 @@ public:
       rankingCounter[stage] = gimmickCounter[stage];
   }
 
+  // メダル獲得条件
+  const std::vector<u_int>& GetMedalNum() const { return medalNumber; }
+
   // 全てのステージの記録を返す
   std::vector<u_int>& RankingCounter() { return rankingCounter; }
 
@@ -51,6 +54,7 @@ private:
 
   std::vector<u_int> gimmickCounter;   // リザルトで表示するカウンタ
   std::vector<u_int> rankingCounter;   // タイトルで表示するカウンタ
+  std::vector<u_int> medalNumber;      // メダル獲得条件
 
   GameData() : stage(StageID::Stage1) {
     gimmickCounter.resize(All_Stage);
@@ -58,6 +62,8 @@ private:
 
     rankingCounter.resize(All_Stage);
     for (auto& count : rankingCounter) { count = 0; }
+
+    medalNumber = { 4, 4, 9, };
   }
 };
 
